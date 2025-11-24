@@ -94,7 +94,30 @@ Ejemplo de flujo de ejecución (`main()`):
 6. Descarga portadas
 7. Escribe el JSON resultante en `landing/goodreads_books.json`.
 
-------------------------------------------------------------------------
+### 1.8 Herramienta de debugging opcional (`debug_goodreads.py`)
+
+Archivo: **`src/debug_goodreads.py`**
+
+Este script no forma parte del pipeline principal, pero resulta muy útil para inspeccionar cómo Goodreads estructura los datos internos de una ficha de libro, especialmente cuando cambian los HTML o cuando hay problemas al extraer `isbn10`, `isbn13` o `asin`.
+
+**Funcionalidades:**
+
+- **Descarga la página HTML completa** de un libro y la guarda como `debug_goodreads.html` para inspección directa en el navegador.
+- **Busca todas las apariciones de `isbn` e `isbn13` en el HTML crudo**, incluyendo valores embebidos en JSON o scripts internos.
+- **Analiza el bloque `#bookDataBox`** con BeautifulSoup y muestra todas las filas (`label → valor`) que presente Goodreads.
+- **Revela cambios, estructuras ocultas o variaciones** que afecten la extracción de identificadores.
+
+**Uso rápido:**
+
+```python
+from debug_goodreads import debug_goodreads
+debug_goodreads("https://www.goodreads.com/book/show/<ID>")
+```
+
+Permite localizar manualmente dónde aparece realmente cada identificador para ajustar el scraper cuando Goodreads modifica su HTML.
+
+
+---
 
 ## BLOQUE 2 --- Enriquecimiento (Google Books → CSV)
 

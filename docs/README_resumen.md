@@ -54,6 +54,7 @@ books-pipeline/                         Proyecto completo del pipeline de libros
    │  └─ quality_metrics.json           Métricas de calidad del pipeline/dataset
    │
    ├─ src/                              Código fuente del pipeline
+   │   ├─ debug_goodreads.py            Herramienta para depurar fichas de Goodreads y localizar ISBN/ASIN en el HTML
    │   ├─ scrape_goodreads.py           Script para extraer datos de Goodreads
    │   ├─ enrich_googlebooks.py         Script para enriquecer datos usando Google Books
    │   └─ integrate_pipeline.py         Script principal que orquesta todo el pipeline
