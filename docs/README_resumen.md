@@ -1,5 +1,8 @@
 \newpage
-# Books Pipeline (Goodreads → Google Books → Parquet) <Br> (README_resumen.md)
+# Resumen Books Pipeline (Goodreads → Google Books → Parquet)
+**(README_resumen.md)**
+
+---
 
 ## 1. Objetivo
 Este proyecto implementa un pipeline completo de **Extracción → Enriquecimiento → Integración** para consolidar datos de libros a partir de:
@@ -57,6 +60,7 @@ books-pipeline/                         Proyecto completo del pipeline de libros
    │
    ├─ README.md                         Descripción general del proyecto, cómo usarlo
    ├─ requirements.txt                  Lista de dependencias de Python necesarias
+   ├─ .env.example                      Fichero de ejemplo de variables de entorno (API keys, ...)
    └─ .env                              Variables de entorno (API keys, ...)
 ```
 
@@ -106,40 +110,45 @@ books-pipeline/                         Proyecto completo del pipeline de libros
 
 ### 5.2. Crear archivo `.env`
 
+Puedes copiarlo desde `.env.ejemplo`.
 Ejemplo:
 
         GOOGLE_BOOKS_API_KEY=TU_API_KEY_AQUI
         GOODREADS_BACKEND=requests/playwright	
         GOODREADS_FETCH_ISBN=true/false
-        GOODREADS_SEARCH_QUERY=data science
-        GOODREADS_MAX_BOOKS=15
+        GOODREADS_SEARCH_QUERY=big data
+        GOODREADS_MAX_BOOKS=25
         GOODREADS_USER_AGENT=Mozilla/5.0 (Windows NT 10.0; Win64; x64)
 
-Puedes copiarlo desde `.env`.
-
-------------------------------------------------------------------------
+---
 
 ### 5.3. Ejecución
 
 1. Scraping Goodreads → JSON
+
 ```bash
         python src/scrape_goodreads.py
 ```
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Salidas generadas:  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Salidas generadas:
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- `landing/goodreads_books.json`
 
 2. Enriquecimiento Google Books API → CSV
+
 ```bash
         python src/enrich_googlebooks.py
 ```
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Salidas generadas:  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Salidas generadas:
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- `landing/googlebooks_books.csv`
 
 3. Integración y estandarización → Parquet
+
 ```bash
         python src/integrate_pipeline.py
 ```
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Salidas generadas:  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Salidas generadas:
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- `standard/dim_book.parquet`
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- `standard/book_source_detail.parquet`

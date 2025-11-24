@@ -1,6 +1,7 @@
 
 \newpage
-# Books Pipeline (Goodreads → Google Books → Parquet) <Br> (README.md)
+# Books Pipeline (Goodreads → Google Books → Parquet)
+**(README.md)**
 
 # Ejecución del pipeline completo
 
@@ -11,6 +12,7 @@
 Archivo: **`src/scrape_goodreads.py`**
 
 Este script extrae libros desde la búsqueda pública de Goodreads sin autenticación y genera un fichero JSON con los resultados.
+
 Opcionalmente, descarga portadas locales y extrae ISBN/ASIN accediendo a la ficha de cada libro.
 
 ### 1.1 URL utilizada
@@ -19,7 +21,7 @@ Opcionalmente, descarga portadas locales y extrae ISBN/ASIN accediendo a la fich
 
 donde `{query}` es la cadena de búsqueda con espacios reemplazados por `+`.
 
-### 1.2 Selectores CSS empleados
+### 1.2 Selectores CSS (Cascading Style Sheets) empleados
 
 | Campo             | Selector CSS          |
 |-------------------|-----------------------|
@@ -189,9 +191,9 @@ El acceso a Google Books se realiza mediante la función `call_google_books_api`
     - La query enviada a Google Books.
     - Mensajes de enriquecido correcto, sin resultados o errores.
 
-Además, se puede introducir una pequeña pausa entre llamadas (por ejemplo `time.sleep(0.3)`) para no saturar la API de Google Books.  
+Se introduce una pequeña pausa entre llamadas (`time.sleep(0.3)`) para no saturar la API de Google Books.  
 
-Si `call_google_books_api` no devuelve ningún resultado (`item is None`), ese libro no genera fila en el CSV de salida.
+Si `call_google_books_api` no devuelve ningún resultado (`item is None`), no se genera fila en el CSV de salida.
 
 Si no se encuentra la variable de entorno `GOOGLE_BOOKS_API_KEY`, se muestra un aviso, pero el script intenta llamar igualmente a la API sin clave.
 
@@ -202,15 +204,15 @@ Si no existe el fichero de entrada `landing/goodreads_books.json`, se lanza un `
 
 Variable de entorno:
 
-    `GOOGLE_BOOKS_API_KEY` — Clave de API para Google Books (opcional pero recomendada).
+`GOOGLE_BOOKS_API_KEY` — Clave de API para Google Books (opcional pero recomendada).
 
 Ruta de entrada:
 
-    `landing/goodreads_books.json` — JSON con los libros procedentes de Goodreads.
+`landing/goodreads_books.json` — JSON con los libros procedentes de Goodreads.
 
 Ruta de salida:
 
-    `landing/googlebooks_books.csv` — CSV enriquecido con datos de Google Books.
+`landing/googlebooks_books.csv` — CSV enriquecido con datos de Google Books.
 
 Las rutas se calculan a partir de la raíz del proyecto, utilizando `BASE_DIR` y `LANDING_DIR`.
 
@@ -221,8 +223,7 @@ Archivo generado: `landing/googlebooks_books.csv`
 - Separador: `;`
 - Codificación: `utf-8`
 - Cabecera incluida
-- Columnas (en este orden):
- `gb_id, original_title, original_author, title, subtitle, authors, publisher, pub_date, language, categories, isbn13, isbn10, asin, price_amount, price_currency`
+- Columnas (en este orden): `gb_id`, `original_title`, `original_author`, `title`, `subtitle`, `authors`, `publisher`, `pub_date`, `language`, `categories`, `isbn13`, `isbn10`, `asin`, `price_amount`, `price_currency`
 
 ---
 
@@ -256,7 +257,7 @@ Esta tabla staging es la base para normalización, calidad y deduplicación.
 
 A partir de los datos combinados en **staging** se aplican las siguientes normalizaciones y derivaciones:
 
-#### Fechas (ISO-8601)
+**Fechas (ISO-8601)**
 
 Función: `normalize_date`:
 
@@ -269,7 +270,8 @@ Función: `normalize_date`:
     2017-05  → 2017-05-01
 ```
 
-#### Idioma (BCP-47 simplificado)
+**Idioma (BCP-47 simplificado)**
+
 - Se transforma a minúsculas.
 - Se eliminan espacios.
 - Si viene vacío o `NaN`, devuelve `null`.
@@ -280,7 +282,8 @@ Función: `normalize_date`:
     "pt-BR" → "pt-br"
 ```
 
-#### Moneda (ISO-4217)
+**Moneda (ISO-4217)**
+
 Función `normalize_currency`:
 
 - Convierte a mayúsculas.
@@ -293,13 +296,15 @@ Función `normalize_currency`:
     " eur " → "EUR"
 ```
 
-#### Autores / Categorías
+**Autores / Categorías**
+
 - Campo original en texto: `autores`, `categorias` .
 - Cadenas tipo `"Autor1|Autor2"` se convierten en listas `["Autor1", "Autor2"]`.
 - Se eliminan vacíos y espacios.
 - Se guardan como listas `autores_list` y `categorias_list`.
 
-#### Otros derivados
+**Otros derivados**
+
 Además se generan:
 
 - `titulo_normalizado` — título en minúsculas.
@@ -311,7 +316,8 @@ Además se generan:
 Función: `generate_book_id_from_row`
 
 1.  Si existe `isbn13`, se utiliza directamente como `book_id`.
-2.  Si no, se genera un hash (SHA-1) estable a partir de `titulo_normalizado | autor_normalizado | editorial_normalizada | anio_publicacion`
+2.  Si no, se genera un hash (SHA-1) estable a partir de:
+    - `titulo_normalizado | autor_normalizado | editorial_normalizada | anio_publicacion`
 
 Los campos normalizados `autor_normalizado` y `editorial_normalizada` se generan en `deduplicate()` a partir de:
 
@@ -355,13 +361,13 @@ La función `deduplicate(staging)` aplica las reglas sobre la tabla de staging:
         - información ganadora,
         - autores y categorías unificados,
         - normalizaciones semánticas,
-        - trazabilidad (`fuente_ganadora`, `ts_ultima_actualizacion`).
+        - trazabilidad (`fuente_ganadora`, `ts_ultima_act`).
 
 ### 3.5 Salidas
 
 Además de un Parquet de staging (`staging/books_staging.parquet`), el módulo genera las siguientes salidas:
 
-#### `standard/dim_book.parquet`
+**`standard/dim_book.parquet`**
 
 Tabla canónica con una fila por `book_id` (solo registros válidos). Incluye:
 
@@ -379,41 +385,53 @@ Tabla canónica con una fila por `book_id` (solo registros válidos). Incluye:
 | isbn10                 | string    | sí   | Identificador ISBN-10 (si existe).                                         |
 | isbn13                 | string    | sí   | Identificador ISBN-13 (si existe).                                         |
 | asin                   | string    | sí   | Identificador ASIN (si existe).                                            |
-| paginas                | int       | sí   | Número de páginas (no disponible en este pipeline, reservado para futuro). |
+| paginas                | int       | sí   | Número de páginas (no disponible en este pipeline). |
 | formato                | string    | sí   | Formato físico/digital (no disponible en este pipeline).                   |
 | categoria              | array     | sí   | Lista de categorías temáticas.                                             |
 | precio                 | float     | sí   | Precio del libro (si está disponible en Google Books).                     |
 | moneda                 | string    | sí   | Moneda en ISO-4217 (ej. `EUR`, `USD`).                                     |
 | fuente_ganadora        | string    | no   | Fuente del registro ganador (`googlebooks` o `goodreads`).                 |
-| ts_ultima_actualizacion| timestamp | no   | Marca temporal de generación del registro canónico (ISO-8601).             |
+| ts_ultima_act| timestamp | no   | Marca temporal de generación del registro canónico (ISO-8601).             |
 
-#### `standard/book_source_detail.parquet`
+**`standard/book_source_detail.parquet`**
 
 Detalle completo de todas las filas de `staging` (válidas y con error), por fuente y fila original, ya ordenadas por prioridad, incluyendo campos normalizados, flags de calidad y trazabilidad. Incluye:
 
 - Campos originales unificados de ambas fuentes (título, autor, rating, etc.).
 - Campos normalizados (titulo_normalizado, idioma, fecha_publicacion, etc.).
 - Listas derivadas:
-    - `autores_list` Lista de autores ya tokenizados.  
-    - `categorias_list` Lista de categorías normalizadas.
+    - `autores_list` — Lista de autores ya tokenizados.
+    - `categorias_list` — Lista de categorías normalizadas.
 - Flags y prioridad:
-    - `has_isbn13` Flag: indica si la fila tiene `isbn13` no nulo.
-    - `has_precio` Flag: indica si la fila tiene `precio` no nulo.
-    - `prioridad_fuente` Prioridad de la fuente en la regla de supervivencia (`googlebooks` > `goodreads`).
-    - `has_error` Indica si esa fila tuvo algún problema durante el procesamiento (`true`/`false`)
-    - `error_codes` Lista o cadena con los códigos de error que afectaron a la fila.
+    - `has_isbn13` — Flag: indica si la fila tiene `isbn13` no nulo.
+    - `has_precio` — Flag: indica si la fila tiene `precio` no nulo.
+    - `prioridad_fuente` — Prioridad de la fuente en la regla de supervivencia (`googlebooks` > `goodreads`).
+    - `has_error` — Indica si esa fila tuvo algún problema durante el procesamiento (`true`/`false`)
+    - `error_codes` — Lista o cadena con los códigos de error que afectaron a la fila.
 - Trazabilidad y claves:
-    - `source_name` Nombre de la fuente (`goodreads`, `googlebooks`).
-    - `source_file` Nombre del fichero de origen en `landing/` (`goodreads_books.json` / `googlebooks_books.csv`)
-    - `source_id` ID secuencial en book_source_detail
-    - `row_number` Número de fila original dentro de cada fuente.
-    - `book_id` Identificador canónico asignado a la fila.
-    - `book_id_candidato` Usada para trazabilidad; coincide con `book_id`
-    - `ts_ingesta` Timestamp de carga en `staging`
+    - `source_name` — Nombre de la fuente (`goodreads`, `googlebooks`).
+    - `source_file` — Nombre del fichero de origen en `landing/` (`goodreads_books.json` / `googlebooks_books.csv`)
+    - `source_id` — ID secuencial en book_source_detail
+    - `row_number` — Número de fila original dentro de cada fuente.
+    - `book_id` — Identificador canónico asignado a la fila.
+    - `book_id_candidato` — Usada para trazabilidad; coincide con `book_id`
+    - `ts_ingesta` — Timestamp de carga en `staging`
 
 La trazabilidad de procedencia se mantiene mediante `source_name`, `source_file` y `book_id_candidato`, que permiten identificar el origen de cada registro.
 
 Además, en `dim_book` el campo `fuente_ganadora` indica de qué origen proviene el valor final seleccionado tras la deduplicación.
+
+**Comparativa: `dim_book` vs `book_source_detail`**
+
+| Aspecto                  | `dim_book`                                                | `book_source_detail`                                                |
+|--------------------------|-----------------------------------------------------------|---------------------------------------------------------------------|
+| Propósito                | Modelo canónico final, listo para consumo                 | Detalle por fuente y registro original                              |
+| Nivel                    | Capa estándar / Gold                                     | Capa de detalle / Silver-raw                                        |
+| Cardinalidad             | 1 fila por `book_id`                                      | Varias filas por `book_id` (una por fuente y fila original)         |
+| Estado del dato          | Normalizado, deduplicado y sin errores (`has_error = 0`) | Incluye filas válidas y con error                                   |
+| Origen de los valores    | Fila ganadora según reglas de deduplicación              | Datos tal y como llegan de cada fuente + normalizaciones básicas    |
+| Uso principal            | Analítica, reporting, consumo downstream                  | Auditoría, trazabilidad, debugging del pipeline                     |
+| Trazabilidad             | `book_id`, `fuente_ganadora`, timestamps                  | `source_name`, `source_file`, `row_number`, `book_id_candidato`     |
 
 #### `docs/quality_metrics.json`
 
@@ -442,20 +460,14 @@ Fichero JSON con métricas de calidad y trazabilidad. Incluye:
 - Metadatos de entrada (metrics["entradas"]):
     - Para `goodreads` y `googlebooks`: `ruta`, `n_filas`, `n_columnas` y `tamano_bytes`
 
-#### `docs/schema.md`
+**`docs/schema.md`**
 
-Se genera un fichero de documentación con el esquema de las tablas:
+Se genera un fichero de documentación con el esquema de las tablas para `dim_book` y `book_source_detail`:
 
-- Para `dim_book` y `book_source_detail`:
-    - Nombre de columna
-    - Tipo
-    - Nullability (incluyendo `%` de nulos)
-    - Un valor de ejemplo
-- Resumen textual de:
-    - Modelo canónico (`book_id`)
-    - Reglas de deduplicación
-    - Unión de autores/categorías
-    - Diferencia entre `dim_book` y `book_source_detail`.
+- Nombre de columna
+- Tipo
+- Nullability (incluyendo `%` de nulos)
+- Un valor de ejemplo
 
 ---
 
@@ -471,4 +483,4 @@ El proyecto implementa un pipeline ETL completo:
 - Deduplica con un identificador canónico (`book_id`) y criterios de supervivencia claros.
 - Produce Parquets limpios (`dim_book`, `book_source_detail`).
 - Genera métricas de calidad (`quality_metrics.json`)
-- Documentación completamente el esquema (`schema.md`).
+- Documenta completamente el esquema (`schema.md`).

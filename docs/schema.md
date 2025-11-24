@@ -22,7 +22,7 @@
 | precio | float64 | NULL (100.0%) |  |
 | moneda | object | NULL (100.0%) |  |
 | fuente_ganadora | object | NOT NULL | goodreads |
-| ts_ultima_actualizacion | object | NOT NULL | 2025-11-24T11:30:45.634491+00:00 |
+| ts_ultima_act | object | NOT NULL | 2025-11-24T11:30:45.634491+00:00 |
 
 ## book_source_detail
 

@@ -458,7 +458,7 @@ def deduplicate(staging: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
     dim_book["precio"] = winners.get("precio")
     dim_book["moneda"] = winners.get("moneda")
     dim_book["fuente_ganadora"] = winners.get("source_name")
-    dim_book["ts_ultima_actualizacion"] = datetime.now(UTC).isoformat()
+    dim_book["ts_ultima_act"] = datetime.now(UTC).isoformat()
 
     # 7. book_source_detail con TODOS los registros (válidos + con error)
     # Orden similar al de deduplicación, pero incluyendo los inválidos
