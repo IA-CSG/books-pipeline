@@ -153,4 +153,4 @@ Puedes copiarlo desde `.env`.
 ---
 
 ## 6. Publicación web (GitHub)
-- https://github.com/IA-CSG/Proyecto_UT1_RA1_BA/tree/main/project
+- https://github.com/IA-CSG/books-pipeline
