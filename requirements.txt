@@ -1,0 +1,15 @@
+requests==2.32.3
+beautifulsoup4==4.12.3
+lxml==5.3.0
+pandas==2.2.3
+pyarrow==18.0.0
+numpy==2.1.2
+python-dotenv==1.0.1
+playwright==1.49.0
+
+python.exe -m pip install requests
+python.exe -m pip install python-dotenv
+python.exe -m pip install beautifulsoup4
+python.exe -m pip install lxml
+python.exe -m pip install playwright
+playwright install  

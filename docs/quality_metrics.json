@@ -1,0 +1,105 @@
+{
+  "dim_book": {
+    "rows": 25,
+    "columns": 19,
+    "nulos_por_campo": {
+      "book_id": 0.0,
+      "titulo": 0.0,
+      "titulo_normalizado": 0.0,
+      "autor_principal": 0.0,
+      "autores": 0.0,
+      "editorial": 0.4,
+      "anio_publicacion": 0.32,
+      "fecha_publicacion": 0.32,
+      "idioma": 0.32,
+      "isbn10": 0.12,
+      "isbn13": 0.12,
+      "asin": 0.0,
+      "paginas": 1.0,
+      "formato": 1.0,
+      "categorias": 0.0,
+      "precio": 1.0,
+      "moneda": 1.0,
+      "fuente_ganadora": 0.0,
+      "ts_ultima_actualizacion": 0.0
+    }
+  },
+  "book_source_detail": {
+    "rows": 42,
+    "columns": 36,
+    "nulos_por_campo": {
+      "titulo": 0.0,
+      "autor_principal": 0.0,
+      "rating": 0.40476190476190477,
+      "ratings_count": 0.40476190476190477,
+      "book_url": 0.40476190476190477,
+      "isbn10": 0.07142857142857142,
+      "isbn13": 0.07142857142857142,
+      "asin": 0.40476190476190477,
+      "source_name": 0.0,
+      "source_file": 0.0,
+      "row_number": 0.0,
+      "autores": 0.0,
+      "editorial": 0.6428571428571429,
+      "fecha_publicacion_raw": 0.5952380952380952,
+      "idioma_raw": 0.5952380952380952,
+      "categorias": 0.0,
+      "precio": 1.0,
+      "moneda": 1.0,
+      "titulo_normalizado": 0.0,
+      "idioma": 0.5952380952380952,
+      "fecha_publicacion": 0.5952380952380952,
+      "autores_list": 0.0,
+      "categorias_list": 0.0,
+      "anio_publicacion": 0.5952380952380952,
+      "longitud_titulo": 0.0,
+      "autor_normalizado": 0.0,
+      "editorial_normalizada": 0.0,
+      "book_id": 0.0,
+      "has_isbn13": 0.0,
+      "has_precio": 0.0,
+      "prioridad_fuente": 0.0,
+      "error_codes": 0.0,
+      "has_error": 0.0,
+      "source_id": 0.0,
+      "book_id_candidato": 0.0,
+      "ts_ingesta": 0.0
+    },
+    "duplicados_por_isbn13": 37,
+    "duplicados_por_titulo_autor_editorial": 0,
+    "filas_por_fuente": {
+      "goodreads": 25,
+      "googlebooks": 17
+    }
+  },
+  "validaciones": {
+    "porcentaje_idiomas_validos": 0.40476190476190477,
+    "porcentaje_monedas_validas": 0.0,
+    "porcentaje_fechas_validas": 0.40476190476190477,
+    "porcentaje_clave_titulo_autor_presente": 1.0,
+    "porcentaje_filas_validas": 1.0,
+    "porcentaje_ratings_validos": 1.0,
+    "porcentaje_nulos_titulo": 0.0,
+    "porcentaje_nulos_isbn13": 0.07142857142857142,
+    "porcentaje_nulos_precio": 1.0,
+    "porcentaje_registros_invalidos": 0.0
+  },
+  "logs": {
+    "por_archivo": {},
+    "por_regla": {}
+  },
+  "entradas": {
+    "goodreads": {
+      "ruta": "landing/goodreads_books.json",
+      "n_filas": 25,
+      "n_columnas": 10,
+      "tamano_bytes": 15898
+    },
+    "googlebooks": {
+      "ruta": "landing/googlebooks_books.csv",
+      "n_filas": 17,
+      "n_columnas": 15,
+      "tamano_bytes": 4626
+    }
+  }
+}
