@@ -22,7 +22,7 @@
 | precio | float64 | NULL (100.0%) |  |
 | moneda | object | NULL (100.0%) |  |
 | fuente_ganadora | object | NOT NULL | goodreads |
-| ts_ultima_act | object | NOT NULL | 2025-11-24T11:30:45.634491+00:00 |
+| ts_ultima_act | object | NOT NULL | 2025-11-24T15:01:03.101196+00:00 |
 
 ## book_source_detail
 
@@ -63,5 +63,5 @@
 | has_error | bool | NOT NULL | False |
 | source_id | int64 | NOT NULL | 1 |
 | book_id_candidato | object | NOT NULL | 037424ccc6228d8d2d682491a4f1d39eaec6605b |
-| ts_ingesta | object | NOT NULL | 2025-11-24T11:30:45.635784+00:00 |
+| ts_ingesta | object | NOT NULL | 2025-11-24T15:01:03.102473+00:00 |
 

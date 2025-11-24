@@ -687,6 +687,20 @@ def main():
     print("docs/quality_metrics.json")
     print("docs/schema.md")
 
+    # Convertir Parquet → CSV
+    os.makedirs("parquet_a_csv", exist_ok=True)
+    parquet_files = [
+        "standard/dim_book.parquet",
+        "standard/book_source_detail.parquet",
+        "staging/books_staging.parquet",
+    ]
+
+    for pq_file in parquet_files:
+        df = pd.read_parquet(pq_file)
+        csv_name = os.path.splitext(os.path.basename(pq_file))[0] + ".csv"
+        csv_path = os.path.join("parquet_a_csv", csv_name)
+        df.to_csv(csv_path, index=False)
+        print(f"Convertido a CSV: {csv_path}")
 
 if __name__ == "__main__":
     main()

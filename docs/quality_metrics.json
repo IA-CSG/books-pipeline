@@ -21,7 +21,7 @@
       "precio": 1.0,
       "moneda": 1.0,
       "fuente_ganadora": 0.0,
-      "ts_ultima_actualizacion": 0.0
+      "ts_ultima_act": 0.0
     }
   },
   "book_source_detail": {
