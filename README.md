@@ -489,6 +489,8 @@ Se genera un fichero de documentación con el esquema de las tablas para `dim_bo
 - Nullability (incluyendo `%` de nulos)
 - Un valor de ejemplo
 
+---
+
 ## CONCLUSIÓN
 
 El proyecto implementa un pipeline ETL completo:
