@@ -81,8 +81,8 @@ Los parámetros del scraping se leen de variables de entorno (con valores por de
 | `GOODREADS_SEARCH_QUERY`| Término de búsqueda           | "Big Data"
 | `GOODREADS_MAX_BOOKS`   | Nº máximo de libros a extraer | 15
 | `GOODREADS_USER_AGENT`  | User-Agent HTTP               | "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
-| `GOODREADS_BACKEND`     | Backend de scraping `requests` o `playwright`| "requests"
-| `GOODREADS_FETCH_ISBN`  | Activar extracción de ISBN/ASIN desde ficha| "true"
+| `GOODREADS_BACKEND`     | Backend scraping `requests`/`playwright`| "requests"
+| `GOODREADS_FETCH_ISBN`  | Activar extracción ISBN/ASIN desde ficha| "true"
 
 Ejemplo de flujo de ejecución (`main()`):
 
@@ -125,7 +125,7 @@ Archivo: **`src/enrich_googlebooks.py`**
 
 Este script consulta la API pública de Google Books para enriquecer la información procedente de Goodreads (`landing/goodreads_books.json`).
 
-Genera un archivo CSV con metadatos adicionales como autores, editorial, categorías, idiomas, identificadores y precios.
+Genera un CSV con metadatos adicionales como autores, editorial, categorías, idiomas, identificadores y precios.
 
 ### 2.1 Endpoint utilizado
 
@@ -342,10 +342,7 @@ Función: `generate_book_id_from_row`
 2.  Si no, se genera un hash (SHA-1) estable a partir de:
     - `titulo_normalizado | autor_normalizado | editorial_normalizada | anio_publicacion`
 
-Los campos normalizados `autor_normalizado` y `editorial_normalizada` se generan en `deduplicate()` a partir de:
-
-- `autor_principal` / `autor` / `author`
-- `editorial` / `publisher`
+Los campos normalizados `autor_normalizado` y `editorial_normalizada` se generan en `deduplicate()` a partir de `autor_principal` / `autor` / `author` y `editorial` / `publisher` respectivamente.
 
 ### 3.4 Deduplicación
 
@@ -442,17 +439,17 @@ Detalle completo de todas las filas de `staging` (válidas y con error), por fue
 
 La trazabilidad de procedencia se mantiene mediante `source_name`, `source_file` y `book_id_candidato`, que permiten identificar el origen de cada registro.
 
-Además, en `dim_book` el campo `fuente_ganadora` indica de qué origen proviene el valor final seleccionado tras la deduplicación.
+En `dim_book` el campo `fuente_ganadora` indica el origen del valor final seleccionado tras la deduplicación.
 
 **Comparativa: `dim_book` vs `book_source_detail`**
 
 | Aspecto                  | `dim_book`                                                | `book_source_detail`                                                |
 |--------------------------|-----------------------------------------------------------|---------------------------------------------------------------------|
 | Propósito                | Modelo canónico final, listo para consumo                 | Detalle por fuente y registro original                              |
-| Nivel                    | Capa estándar / Gold                                     | Capa de detalle / Silver-raw                                        |
+| Nivel                    | Capa estándar / Gold                                      | Capa de detalle / Silver-raw                                        |
 | Cardinalidad             | 1 fila por `book_id`                                      | Varias filas por `book_id` (una por fuente y fila original)         |
-| Estado del dato          | Normalizado, deduplicado y sin errores (`has_error = 0`) | Incluye filas válidas y con error                                   |
-| Origen de los valores    | Fila ganadora según reglas de deduplicación              | Datos tal y como llegan de cada fuente + normalizaciones básicas    |
+| Estado del dato          | Normalizado, deduplicado y sin errores                    | Incluye filas válidas y con error                                   |
+| Origen de los valores    | Fila ganadora según reglas de deduplicación               | Datos tal y como llegan de cada fuente + normalizaciones básicas    |
 | Uso principal            | Analítica, reporting, consumo downstream                  | Auditoría, trazabilidad, debugging del pipeline                     |
 | Trazabilidad             | `book_id`, `fuente_ganadora`, timestamps                  | `source_name`, `source_file`, `row_number`, `book_id_candidato`     |
 
@@ -492,14 +489,11 @@ Se genera un fichero de documentación con el esquema de las tablas para `dim_bo
 - Nullability (incluyendo `%` de nulos)
 - Un valor de ejemplo
 
----
-
-## Conclusión
+## CONCLUSIÓN
 
 El proyecto implementa un pipeline ETL completo:
 
-- Extrae libros desde Goodreads.
-- Los enriquece con Google Books.
+- Extrae libros desde Goodreads y los enriquece con Google Books.
 - No modifica `landing/` (solo lectura).
 - Normaliza semánticamente fechas, idiomas y monedas.
 - Integra ambas fuentes en una tabla de staging con normalización y reglas de calidad.

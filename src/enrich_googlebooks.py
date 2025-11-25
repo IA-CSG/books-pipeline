@@ -17,7 +17,7 @@ LANDING_DIR = os.path.join(BASE_DIR, "landing")
 
 def build_query(book: Dict[str, Any]) -> str:
     # Construye la query para Google Books.
-    # Prioriza ISBN13 > ISBN10, y si no hay, usa título + autor.
+    # Prioriza ISBN13 > ISBN10 > ASIN y si no hay, usa título + autor.
 
     # ISBN
     isbn13 = book.get("isbn13")

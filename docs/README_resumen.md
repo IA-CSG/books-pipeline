@@ -79,7 +79,7 @@ books-pipeline/                         Proyecto completo del pipeline de libros
 2. **Enriquecimiento (Google Books → CSV)**  
    Script: `src/enrich_googlebooks.py`
    - Para cada libro de Goodreads, llama a Google Books API.
-   - Prioriza `isbn13` > `isbn10` > combinación `título + autor`.
+   - Prioriza `isbn13` > `isbn10` > `ASIN` > combinación `título + autor`.
    - Extrae: título, autores, editorial, fecha de publicación, idioma, categorías, ISBNs, precio/moneda.
    - Genera: `landing/googlebooks_books.csv` (`;` y UTF-8).
 
@@ -120,8 +120,6 @@ Ejemplo:
         GOODREADS_SEARCH_QUERY=big data
         GOODREADS_MAX_BOOKS=25
         GOODREADS_USER_AGENT=Mozilla/5.0 (Windows NT 10.0; Win64; x64)
-
----
 
 ### 5.3. Ejecución
 

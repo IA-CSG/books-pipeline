@@ -34,10 +34,10 @@ class Backend(str, Enum):
     REQUESTS = "requests"
     PLAYWRIGHT = "playwright"
 
+# función que intenta extraer dos datos numéricos a partir de un texto
+# Ejemplo de text: '4.23 avg rating — 1,234 ratings' devuelve (rating_float, ratings_count_int) o (None, None)
 def parse_rating_block(text: str) -> Tuple[Optional[float], Optional[int]]:
-        
-    # Ejemplo de text: '4.23 avg rating — 1,234 ratings' devuelve (rating_float, ratings_count_int) o (None, None)
-    
+         
     if not text:
         return None, None
     try:
@@ -58,10 +58,8 @@ def parse_rating_block(text: str) -> Tuple[Optional[float], Optional[int]]:
     except Exception:
         return None, None
 
-
 # Dada la URL de un libro en Goodreads, intenta extraer ISBN10, ISBN13 y ASIN
 # Devuelve (isbn10, isbn13, asin). Si no se encuentran, devuelve None en cada campo.
-
 def fetch_isbn_from_book_page(book_url: str, user_agent: Optional[str] = None,) -> Tuple[Optional[str], Optional[str], Optional[str]]: 
 
     headers = {"User-Agent": user_agent or "Mozilla/5.0"}
@@ -108,7 +106,6 @@ def fetch_isbn_from_book_page(book_url: str, user_agent: Optional[str] = None,) 
                 asin = m_asin_json.group(1).upper()
 
     return isbn10, isbn13, asin
-
 
 def parse_books_from_html(html: str, max_books: int, user_agent: Optional[str], fetch_isbn: bool,) -> List[Dict]:
 
@@ -270,8 +267,6 @@ def scrape_goodreads_requests(query: str, max_books: int = defaultMax_books, use
         time.sleep(0.5)     # Pequeña pausa para no saturar Goodreads
 
     return books
-
-
 
 # ------------------------------------------------------------
 #  BACKEND Playwright + BeautifulSoup

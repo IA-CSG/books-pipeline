@@ -1,6 +1,6 @@
 {
   "dim_book": {
-    "rows": 25,
+    "rows": 24,
     "columns": 19,
     "nulos_por_campo": {
       "book_id": 0.0,
@@ -8,12 +8,12 @@
       "titulo_normalizado": 0.0,
       "autor_principal": 0.0,
       "autores": 0.0,
-      "editorial": 0.4,
-      "anio_publicacion": 0.32,
-      "fecha_publicacion": 0.32,
-      "idioma": 0.32,
-      "isbn10": 0.12,
-      "isbn13": 0.12,
+      "editorial": 0.375,
+      "anio_publicacion": 0.2916666666666667,
+      "fecha_publicacion": 0.2916666666666667,
+      "idioma": 0.2916666666666667,
+      "isbn10": 0.125,
+      "isbn13": 0.125,
       "asin": 0.0,
       "paginas": 1.0,
       "formato": 1.0,
@@ -25,33 +25,33 @@
     }
   },
   "book_source_detail": {
-    "rows": 42,
+    "rows": 43,
     "columns": 36,
     "nulos_por_campo": {
       "titulo": 0.0,
       "autor_principal": 0.0,
-      "rating": 0.40476190476190477,
-      "ratings_count": 0.40476190476190477,
-      "book_url": 0.40476190476190477,
-      "isbn10": 0.07142857142857142,
-      "isbn13": 0.07142857142857142,
-      "asin": 0.40476190476190477,
+      "rating": 0.4186046511627907,
+      "ratings_count": 0.4186046511627907,
+      "book_url": 0.4186046511627907,
+      "isbn10": 0.06976744186046512,
+      "isbn13": 0.06976744186046512,
+      "asin": 0.4186046511627907,
       "source_name": 0.0,
       "source_file": 0.0,
       "row_number": 0.0,
       "autores": 0.0,
-      "editorial": 0.6428571428571429,
-      "fecha_publicacion_raw": 0.5952380952380952,
-      "idioma_raw": 0.5952380952380952,
+      "editorial": 0.627906976744186,
+      "fecha_publicacion_raw": 0.5813953488372093,
+      "idioma_raw": 0.5813953488372093,
       "categorias": 0.0,
       "precio": 1.0,
       "moneda": 1.0,
       "titulo_normalizado": 0.0,
-      "idioma": 0.5952380952380952,
-      "fecha_publicacion": 0.5952380952380952,
+      "idioma": 0.5813953488372093,
+      "fecha_publicacion": 0.5813953488372093,
       "autores_list": 0.0,
       "categorias_list": 0.0,
-      "anio_publicacion": 0.5952380952380952,
+      "anio_publicacion": 0.5813953488372093,
       "longitud_titulo": 0.0,
       "autor_normalizado": 0.0,
       "editorial_normalizada": 0.0,
@@ -65,22 +65,22 @@
       "book_id_candidato": 0.0,
       "ts_ingesta": 0.0
     },
-    "duplicados_por_isbn13": 37,
-    "duplicados_por_titulo_autor_editorial": 0,
+    "duplicados_por_isbn13": 39,
+    "duplicados_por_titulo_autor_editorial": 4,
     "filas_por_fuente": {
       "goodreads": 25,
-      "googlebooks": 17
+      "googlebooks": 18
     }
   },
   "validaciones": {
-    "porcentaje_idiomas_validos": 0.40476190476190477,
+    "porcentaje_idiomas_validos": 0.4186046511627907,
     "porcentaje_monedas_validas": 0.0,
-    "porcentaje_fechas_validas": 0.40476190476190477,
+    "porcentaje_fechas_validas": 0.4186046511627907,
     "porcentaje_clave_titulo_autor_presente": 1.0,
     "porcentaje_filas_validas": 1.0,
     "porcentaje_ratings_validos": 1.0,
     "porcentaje_nulos_titulo": 0.0,
-    "porcentaje_nulos_isbn13": 0.07142857142857142,
+    "porcentaje_nulos_isbn13": 0.06976744186046512,
     "porcentaje_nulos_precio": 1.0,
     "porcentaje_registros_invalidos": 0.0
   },
@@ -93,13 +93,13 @@
       "ruta": "landing/goodreads_books.json",
       "n_filas": 25,
       "n_columnas": 10,
-      "tamano_bytes": 15898
+      "tamano_bytes": 15899
     },
     "googlebooks": {
       "ruta": "landing/googlebooks_books.csv",
-      "n_filas": 17,
+      "n_filas": 18,
       "n_columnas": 15,
-      "tamano_bytes": 4626
+      "tamano_bytes": 4858
     }
   }
 }
